@@ -279,20 +279,20 @@ blue_grey_colours_1 <- c("#6981c7")
 blue_grey_theme <- function() {
   theme(
     axis.ticks = element_line(
-                              linewidth = 1, linetype = "dashed",
-                              lineend = NULL, color = "#dfdede",
-                              arrow = NULL, inherit.blank = FALSE),
+      linewidth = 1, linetype = "dashed",
+      lineend = NULL, color = "#dfdede",
+      arrow = NULL, inherit.blank = FALSE),
     axis.text = element_text(
-                             face = "bold", color = "#3f3f41",
-                             size = 12, hjust = 0.5),
+      face = "bold", color = "#3f3f41",
+      size = 12, hjust = 0.5),
     axis.title = element_text(face = "bold", color = "#3f3f41",
                               size = 14, hjust = 0.5),
     plot.title = element_text(face = "bold", color = "#3f3f41",
                               size = 16, hjust = 0.5),
     panel.grid = element_line(
-                              linewidth = 0.1, linetype = "dashed",
-                              lineend = NULL, color = "#dfdede",
-                              arrow = NULL, inherit.blank = FALSE),
+      linewidth = 0.1, linetype = "dashed",
+      lineend = NULL, color = "#dfdede",
+      arrow = NULL, inherit.blank = FALSE),
     panel.background = element_rect(fill = "#f3eeee"),
     legend.title = element_text(face = "plain", color = "#3f3f41",
                                 size = 12, hjust = 0),
@@ -308,83 +308,9 @@ kable_theme <- function(dat, caption) {
 }
 
 # STEP 3. Load the Dataset ----
-student_performance_dataset <-
-  read_csv("data/student_performance_dataset.csv",
-           col_types =
-           cols(
-                class_group = col_factor(levels = c("A", "B", "C")),
-                gender = col_factor(levels = c("1", "0")),
-                YOB = col_date(format = "%Y"),
-                regret_choosing_bi = col_factor(levels = c("1", "0")),
-                drop_bi_now = col_factor(levels = c("1", "0")),
-                motivator = col_factor(levels = c("1", "0")),
-                read_content_before_lecture =
-                col_factor(levels = c("1", "2", "3", "4", "5")),
-                anticipate_test_questions =
-                col_factor(levels = c("1", "2", "3", "4", "5")),
-                answer_rhetorical_questions =
-                col_factor(levels = c("1", "2", "3", "4", "5")),
-                find_terms_I_do_not_know =
-                col_factor(levels = c("1", "2", "3", "4", "5")),
-                copy_new_terms_in_reading_notebook =
-                col_factor(levels = c("1", "2", "3", "4", "5")),
-                take_quizzes_and_use_results =
-                col_factor(levels = c("1", "2", "3", "4", "5")),
-                reorganise_course_outline =
-                col_factor(levels = c("1", "2", "3", "4", "5")),
-                write_down_important_points =
-                col_factor(levels = c("1", "2", "3", "4", "5")),
-                space_out_revision =
-                col_factor(levels = c("1", "2", "3", "4", "5")),
-                studying_in_study_group =
-                col_factor(levels = c("1", "2", "3", "4", "5")),
-                schedule_appointments =
-                col_factor(levels = c("1", "2", "3", "4", "5")),
-                goal_oriented = col_factor(levels = c("1", "0")),
-                spaced_repetition =
-                col_factor(levels = c("1", "2", "3", "4")),
-                testing_and_active_recall =
-                col_factor(levels = c("1", "2", "3", "4")),
-                interleaving = col_factor(levels = c("1", "2", "3", "4")),
-                categorizing = col_factor(levels = c("1", "2", "3", "4")),
-                retrospective_timetable =
-                col_factor(levels = c("1", "2", "3", "4")),
-                cornell_notes = col_factor(levels = c("1", "2", "3", "4")),
-                sq3r = col_factor(levels = c("1", "2", "3", "4")),
-                commute = col_factor(levels = c("1", "2", "3", "4")),
-                study_time = col_factor(levels = c("1", "2", "3", "4")),
-                repeats_since_Y1 = col_integer(),
-                paid_tuition = col_factor(levels = c("0", "1")),
-                free_tuition = col_factor(levels = c("0", "1")),
-                extra_curricular = col_factor(levels = c("0", "1")),
-                sports_extra_curricular = col_factor(levels = c("0", "1")),
-                exercise_per_week = col_factor(levels = c("0", "1", "2", "3")),
-                meditate = col_factor(levels = c("0", "1", "2", "3")),
-                pray = col_factor(levels = c("0", "1", "2", "3")),
-                internet = col_factor(levels = c("0", "1")),
-                laptop = col_factor(levels = c("0", "1")),
-                family_relationships =
-                col_factor(levels = c("1", "2", "3", "4", "5")),
-                friendships = col_factor(levels = c("1", "2", "3", "4", "5")),
-                romantic_relationships =
-                col_factor(levels = c("0", "1", "2", "3", "4")),
-                spiritual_wellnes =
-                col_factor(levels = c("1", "2", "3", "4", "5")),
-                financial_wellness =
-                col_factor(levels = c("1", "2", "3", "4", "5")),
-                health = col_factor(levels = c("1", "2", "3", "4", "5")),
-                day_out = col_factor(levels = c("0", "1", "2", "3")),
-                night_out = col_factor(levels = c("0", "1", "2", "3")),
-                alcohol_or_narcotics =
-                col_factor(levels = c("0", "1", "2", "3")),
-                mentor = col_factor(levels = c("0", "1")),
-                mentor_meetings = col_factor(levels = c("0", "1", "2", "3")),
-                `Attendance Waiver Granted: 1 = Yes, 0 = No` =
-                col_factor(levels = c("0", "1")),
-                GRADE = col_factor(levels = c("A", "B", "C", "D", "E"))),
-           locale = locale())
-
-View(student_performance_dataset)
+library(readr)
+Mid_Term_Course_Evaluation_Form_Preprocessed <- read_csv("data/Mid_Term_Course_Evaluation_Form_Preprocessed.csv")
+View(Mid_Term_Course_Evaluation_Form_Preprocessed)
 
 ## Create a filtered subset of the data ----
 
@@ -425,11 +351,11 @@ evaluation_likes_and_wishes <- student_performance_dataset %>%
   arrange(`Class Group`)
 
 evaluation_likes_and_wishes$Likes <- sapply(
-                                            evaluation_likes_and_wishes$Likes,
-                                            expand_contractions)
+  evaluation_likes_and_wishes$Likes,
+  expand_contractions)
 evaluation_likes_and_wishes$Wishes <- sapply(
-                                             evaluation_likes_and_wishes$Wishes,
-                                             expand_contractions)
+  evaluation_likes_and_wishes$Wishes,
+  expand_contractions)
 
 head(evaluation_likes_and_wishes, 10)
 
@@ -1038,38 +964,38 @@ View(evaluation_rating_per_question_per_group)
 
 evaluation_rating_per_question_per_group_long_data <- evaluation_rating_per_question_per_group %>% # nolint
   pivot_longer(
-               cols = -`Class Group`,
-               names_to = "Evaluation Question",
-               values_to = "Mean Value")
+    cols = -`Class Group`,
+    names_to = "Evaluation Question",
+    values_to = "Mean Value")
 
 View(evaluation_rating_per_question_per_group_long_data)
 
 evaluation_rating_per_question_per_group_long_data <- # nolint
   evaluation_rating_per_question_per_group_long_data %>%
   mutate(`Evaluation Question` =
-         factor(`Evaluation Question`,
-           levels =
-           c("A. I am enjoying the subject",
-             "B. Classes start and end on time",
-             "C. The learning environment is participative, involves learning by doing and is group-based", # nolint
-             "D. The subject content is delivered according to the course outline and meets my expectations", # nolint
-             "E. The topics are clear and logically developed",
-             "F. I am developing my oral and writing skills",
-             "G. I am developing my reflective and critical reasoning skills", # nolint
-             "H. The assessment methods are assisting me to learn",
-             "I. I receive relevant feedback",
-             "J. I read the recommended readings and notes",
-             "K. I use the eLearning material posted",
-             "L. Mean Overall Course Evaluation Rating")
-         )) %>%
+           factor(`Evaluation Question`,
+                  levels =
+                    c("A. I am enjoying the subject",
+                      "B. Classes start and end on time",
+                      "C. The learning environment is participative, involves learning by doing and is group-based", # nolint
+                      "D. The subject content is delivered according to the course outline and meets my expectations", # nolint
+                      "E. The topics are clear and logically developed",
+                      "F. I am developing my oral and writing skills",
+                      "G. I am developing my reflective and critical reasoning skills", # nolint
+                      "H. The assessment methods are assisting me to learn",
+                      "I. I receive relevant feedback",
+                      "J. I read the recommended readings and notes",
+                      "K. I use the eLearning material posted",
+                      "L. Mean Overall Course Evaluation Rating")
+           )) %>%
   mutate(`Class Group` = factor(`Class Group`, levels = c("A", "B", "C")))
 
 View(evaluation_rating_per_question_per_group_long_data)
 
 # This is done to enable word wrapping when the plot is created
 evaluation_rating_per_question_per_group_long_data$`Evaluation Question` <- # nolint
-str_wrap(evaluation_rating_per_question_per_group_long_data$`Evaluation Question`, # nolint
-         width = 30)
+  str_wrap(evaluation_rating_per_question_per_group_long_data$`Evaluation Question`, # nolint
+           width = 30)
 
 ### Visualizations (Grouped Vertical Bar Chart) ----
 # ggplot2 visualization samples are available here:
@@ -1143,39 +1069,39 @@ View(evaluation_rating_per_question_per_gender)
 
 evaluation_rating_per_question_per_gender_long_data <- evaluation_rating_per_question_per_gender %>% # nolint
   pivot_longer(
-               cols = -`Student's Gender`,
-               names_to = "Evaluation Question",
-               values_to = "Mean Value")
+    cols = -`Student's Gender`,
+    names_to = "Evaluation Question",
+    values_to = "Mean Value")
 
 View(evaluation_rating_per_question_per_gender_long_data)
 
 evaluation_rating_per_question_per_gender_long_data <- # nolint
   evaluation_rating_per_question_per_gender_long_data %>%
   mutate(`Evaluation Question` =
-         factor(`Evaluation Question`,
-           levels =
-           c("A. I am enjoying the subject",
-             "B. Classes start and end on time",
-             "C. The learning environment is participative, involves learning by doing and is group-based", # nolint
-             "D. The subject content is delivered according to the course outline and meets my expectations", # nolint
-             "E. The topics are clear and logically developed",
-             "F. I am developing my oral and writing skills",
-             "G. I am developing my reflective and critical reasoning skills", # nolint
-             "H. The assessment methods are assisting me to learn",
-             "I. I receive relevant feedback",
-             "J. I read the recommended readings and notes",
-             "K. I use the eLearning material posted",
-             "L. Mean Overall Course Evaluation Rating")
-         )) %>%
+           factor(`Evaluation Question`,
+                  levels =
+                    c("A. I am enjoying the subject",
+                      "B. Classes start and end on time",
+                      "C. The learning environment is participative, involves learning by doing and is group-based", # nolint
+                      "D. The subject content is delivered according to the course outline and meets my expectations", # nolint
+                      "E. The topics are clear and logically developed",
+                      "F. I am developing my oral and writing skills",
+                      "G. I am developing my reflective and critical reasoning skills", # nolint
+                      "H. The assessment methods are assisting me to learn",
+                      "I. I receive relevant feedback",
+                      "J. I read the recommended readings and notes",
+                      "K. I use the eLearning material posted",
+                      "L. Mean Overall Course Evaluation Rating")
+           )) %>%
   mutate(`Student's Gender` =
-         factor(`Student's Gender`, levels = c("Male", "Female")))
+           factor(`Student's Gender`, levels = c("Male", "Female")))
 
 View(evaluation_rating_per_question_per_gender_long_data)
 
 # This is done to enable word wrapping when the plot is created
 evaluation_rating_per_question_per_gender_long_data$`Evaluation Question` <- # nolint
-str_wrap(evaluation_rating_per_question_per_gender_long_data$`Evaluation Question`, # nolint
-         width = 30)
+  str_wrap(evaluation_rating_per_question_per_gender_long_data$`Evaluation Question`, # nolint
+           width = 30)
 
 ### Visualizations (Grouped Vertical Bar Chart) ----
 # ggplot2 visualization samples are available here:
@@ -1316,3 +1242,5 @@ ggplot(evaluation_rating_per_question_per_gender_long_data,
 # Upload *the link* to "Lab-Submission-Markdown.md" (not .Rmd)
 # markdown file hosted on Github (do not upload the .Rmd or .md markdown files)
 # through the submission link provided on eLearning.
+
+
