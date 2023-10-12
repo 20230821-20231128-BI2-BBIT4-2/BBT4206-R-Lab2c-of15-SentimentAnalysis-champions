@@ -1,50 +1,67 @@
----
-title: "Business Intelligence Lab Submission Markdown"
-author: "Champions"
-date: "12/10/2023"
-output:
-  
-  github_document: 
-    toc: yes
-    toc_depth: 4
-    fig_width: 6
-    fig_height: 4
-    df_print: default
-editor_options:
-  chunk_output_type: console
----
+Business Intelligence Lab Submission Markdown
+================
+Champions
+12/10/2023
+
+- [Student Details](#student-details)
+- [Setup Chunk](#setup-chunk)
+- [Loading the Student Performance
+  Dataset](#loading-the-student-performance-dataset)
+- [Loading a required Lexicon](#loading-a-required-lexicon)
+- [Innerjoin likes and wishes with correspodning likes and
+  wishes](#innerjoin-likes-and-wishes-with-correspodning-likes-and-wishes)
+- [Frequency Sentiment per group and per
+  Gender](#frequency-sentiment-per-group-and-per-gender)
+- [Classifications of Words Per
+  sentiment](#classifications-of-words-per-sentiment)
+- [Average Per Question per Group](#average-per-question-per-group)
 
 # Student Details
 
-+---------------------------------------------------+---------------------------------------------+
-| **Student ID Numbers and Names of Group Members** | 1.  134111 - B - Immaculate Juma            |
-|                                                   |                                             |
-|                                                   | 2.  126761 - B - Virginia Wanjiru           |
-|                                                   |                                             |
-|                                                   | 3.  133996 - B- Trevor Ngugi                |
-|                                                   |                                             |
-|                                                   | 4.  135859 - B - Pauline Wairimu            |
-|                                                   |                                             |
-|                                                   | 5.  127707 - B - Clarice Gitonga            |
-+---------------------------------------------------+---------------------------------------------+
-| **GitHub Classroom Group Name**                   | Champions                                   |
-+---------------------------------------------------+---------------------------------------------+
-| **Course Code**                                   | BBT4206                                     |
-+---------------------------------------------------+---------------------------------------------+
-| **Course Name**                                   | Business Intelligence II                    |
-+---------------------------------------------------+---------------------------------------------+
-| **Program**                                       | Bachelor of Business Information Technology |
-+---------------------------------------------------+---------------------------------------------+
-| **Semester Duration**                             | 21^st^ August 2023 to 28^th^ November 2023  |
-+---------------------------------------------------+---------------------------------------------+
-
-
+<table>
+<colgroup>
+<col style="width: 53%" />
+<col style="width: 46%" />
+</colgroup>
+<tbody>
+<tr class="odd">
+<td><strong>Student ID Numbers and Names of Group Members</strong></td>
+<td><ol type="1">
+<li><p>134111 - B - Immaculate Juma</p></li>
+<li><p>126761 - B - Virginia Wanjiru</p></li>
+<li><p>133996 - B- Trevor Ngugi</p></li>
+<li><p>135859 - B - Pauline Wairimu</p></li>
+<li><p>127707 - B - Clarice Gitonga</p></li>
+</ol></td>
+</tr>
+<tr class="even">
+<td><strong>GitHub Classroom Group Name</strong></td>
+<td>Champions</td>
+</tr>
+<tr class="odd">
+<td><strong>Course Code</strong></td>
+<td>BBT4206</td>
+</tr>
+<tr class="even">
+<td><strong>Course Name</strong></td>
+<td>Business Intelligence II</td>
+</tr>
+<tr class="odd">
+<td><strong>Program</strong></td>
+<td>Bachelor of Business Information Technology</td>
+</tr>
+<tr class="even">
+<td><strong>Semester Duration</strong></td>
+<td>21<sup>st</sup> August 2023 to 28<sup>th</sup> November 2023</td>
+</tr>
+</tbody>
+</table>
 
 # Setup Chunk
 
 We start by installing all the required packages
 
-```{r Install Packages, echo=TRUE, message=FALSE, warning=FALSE}
+``` r
 # STEP 1. Install and Load the Required Packages ----
 # The following packages can be installed and loaded before proceeding to the
 # subsequent steps.
@@ -188,103 +205,98 @@ if (!is.element("lexicon", installed.packages()[, 1])) {
                    repos = "https://cloud.r-project.org")
 }
 require("lexicon")
-
-
 ```
 
 ------------------------------------------------------------------------
 
-**Note:** the following "*KnitR*" options have been set as the defaults in this markdown:\
+**Note:** the following “*KnitR*” options have been set as the defaults
+in this markdown:  
 `knitr::opts_chunk$set(echo = TRUE, warning = FALSE, eval = TRUE, collapse = FALSE, tidy.opts = list(width.cutoff = 80), tidy = TRUE)`.
 
-More KnitR options are documented here <https://bookdown.org/yihui/rmarkdown-cookbook/chunk-options.html> and here <https://yihui.org/knitr/options/>.
+More KnitR options are documented here
+<https://bookdown.org/yihui/rmarkdown-cookbook/chunk-options.html> and
+here <https://yihui.org/knitr/options/>.
 
-```{r setup, echo=TRUE, message=FALSE, warning=FALSE}
+``` r
 knitr::opts_chunk$set(
-	eval = TRUE,
-	echo = TRUE,
-	warning = FALSE,
-	collapse = FALSE,
-	tidy = TRUE
+    eval = TRUE,
+    echo = TRUE,
+    warning = FALSE,
+    collapse = FALSE,
+    tidy = TRUE
 )
 ```
 
 ------------------------------------------------------------------------
 
-**Note:** the following "*R Markdown*" options have been set as the defaults in this markdown:
+**Note:** the following “*R Markdown*” options have been set as the
+defaults in this markdown:
 
-> output:\
-> \
-> github_document:\
-> toc: yes\
-> toc_depth: 4\
-> fig_width: 6\
-> fig_height: 4\
-> df_print: default\
-> \
-> editor_options:\
+> output:  
+>   
+> github_document:  
+> toc: yes  
+> toc_depth: 4  
+> fig_width: 6  
+> fig_height: 4  
+> df_print: default  
+>   
+> editor_options:  
 > chunk_output_type: console
 
 # Loading the Student Performance Dataset
 
-
-```{r Your number one Code Chunk}
-# STEP 2. Customize the Visualizations, Tables, and Colour Scheme ----
-# The following defines a blue-grey colour scheme for the visualizations:
-## shades of blue and shades of grey
+``` r
+# STEP 2. Customize the Visualizations, Tables, and Colour Scheme ---- The
+# following defines a blue-grey colour scheme for the visualizations: shades of
+# blue and shades of grey
 blue_grey_colours_11 <- c("#27408E", "#304FAF", "#536CB5", "#6981c7", "#8da0db",
-                          "#dde5ec", "#c8c9ca", "#B9BCC2", "#A7AAAF", "#888A8E",
-                          "#636569")
+    "#dde5ec", "#c8c9ca", "#B9BCC2", "#A7AAAF", "#888A8E", "#636569")
 
-blue_grey_colours_6 <- c("#27408E", "#304FAF", "#536CB5",
-                         "#B9BCC2", "#A7AAAF", "#888A8E")
+blue_grey_colours_6 <- c("#27408E", "#304FAF", "#536CB5", "#B9BCC2", "#A7AAAF", "#888A8E")
 
-blue_grey_colours_4 <- c("#27408E", "#536CB5",
-                         "#B9BCC2", "#888A8E")
+blue_grey_colours_4 <- c("#27408E", "#536CB5", "#B9BCC2", "#888A8E")
 
 blue_grey_colours_3 <- c("#6981c7", "#304FAF", "#888A8E")
 
-blue_grey_colours_2 <- c("#27408E",
-                         "#888A8E")
+blue_grey_colours_2 <- c("#27408E", "#888A8E")
 
 blue_grey_colours_1 <- c("#6981c7")
 
 # Custom theme for visualizations
 blue_grey_theme <- function() {
-  theme(
-    axis.ticks = element_line(
-      linewidth = 1, linetype = "dashed",
-      lineend = NULL, color = "#dfdede",
-      arrow = NULL, inherit.blank = FALSE),
-    axis.text = element_text(
-      face = "bold", color = "#3f3f41",
-      size = 12, hjust = 0.5),
-    axis.title = element_text(face = "bold", color = "#3f3f41",
-                              size = 14, hjust = 0.5),
-    plot.title = element_text(face = "bold", color = "#3f3f41",
-                              size = 16, hjust = 0.5),
-    panel.grid = element_line(
-      linewidth = 0.1, linetype = "dashed",
-      lineend = NULL, color = "#dfdede",
-      arrow = NULL, inherit.blank = FALSE),
-    panel.background = element_rect(fill = "#f3eeee"),
-    legend.title = element_text(face = "plain", color = "#3f3f41",
-                                size = 12, hjust = 0),
-    legend.position = "right"
-  )
+    theme(axis.ticks = element_line(linewidth = 1, linetype = "dashed", lineend = NULL,
+        color = "#dfdede", arrow = NULL, inherit.blank = FALSE), axis.text = element_text(face = "bold",
+        color = "#3f3f41", size = 12, hjust = 0.5), axis.title = element_text(face = "bold",
+        color = "#3f3f41", size = 14, hjust = 0.5), plot.title = element_text(face = "bold",
+        color = "#3f3f41", size = 16, hjust = 0.5), panel.grid = element_line(linewidth = 0.1,
+        linetype = "dashed", lineend = NULL, color = "#dfdede", arrow = NULL, inherit.blank = FALSE),
+        panel.background = element_rect(fill = "#f3eeee"), legend.title = element_text(face = "plain",
+            color = "#3f3f41", size = 12, hjust = 0), legend.position = "right")
 }
 
 # Customize the text tables for consistency using HTML formatting
 kable_theme <- function(dat, caption) {
-  kable(dat, "html", escape = FALSE, caption = caption) %>%
-    kable_styling(bootstrap_options = c("striped", "condensed", "bordered"),
-                  full_width = FALSE)
+    kable(dat, "html", escape = FALSE, caption = caption) %>%
+        kable_styling(bootstrap_options = c("striped", "condensed", "bordered"),
+            full_width = FALSE)
 }
 ```
 
-```{r Load Dataset}
-
+``` r
 Mid_Term_Course_Evaluation_Form_Preprocessed <- read_csv("../data/Mid_Term_Course_Evaluation_Form_Preprocessed.csv")
+```
+
+    ## Rows: 102 Columns: 30
+    ## ── Column specification ────────────────────────────────────────────────────────
+    ## Delimiter: ","
+    ## chr  (8): Submitted on:, Department, Course, Group, Gender, Q01_Class Demogr...
+    ## dbl (22): Absenteeism, Average Course Evaluation Rating, Classes start and e...
+    ## 
+    ## ℹ Use `spec()` to retrieve the full column specification for this data.
+    ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+
+``` r
 View(Mid_Term_Course_Evaluation_Form_Preprocessed)
 
 ## Create a filtered subset of the data ----
@@ -333,7 +345,24 @@ evaluation_likes_and_wishes$Wishes <- sapply(
   expand_contractions)
 
 head(evaluation_likes_and_wishes, 10)
+```
 
+    ## # A tibble: 10 × 5
+    ##    `Class Group`          `Student's Gender` Average Course Evalu…¹ Likes Wishes
+    ##    <chr>                  <chr>                               <dbl> <chr> <chr> 
+    ##  1 20230821-20231128-BI2… Female                                  5 It i… none  
+    ##  2 20230821-20231128-BI2… Female                                  5 The … I do …
+    ##  3 20230821-20231128-BI2… Female                                  5 It i… More …
+    ##  4 20230821-20231128-BI2… Female                                  4 I li… Use o…
+    ##  5 20230821-20231128-BI2… Female                                  5 Ever… i hav…
+    ##  6 20230821-20231128-BI2… Female                                  4 The … stude…
+    ##  7 20230821-20231128-BI2… Female                                  5 Inte… A bit…
+    ##  8 20230821-20231128-BI2… Female                                  4 Its … N/A   
+    ##  9 20230821-20231128-BI2… Female                                  4 It i… .     
+    ## 10 20230821-20231128-BI2… Female                                  4 Labs… Prope…
+    ## # ℹ abbreviated name: ¹​`Average Course Evaluation Rating`
+
+``` r
 # Function to remove special characters and convert all text to a standard
 # lower case
 remove_special_characters <- function(doc) {
@@ -353,7 +382,24 @@ evaluation_likes_and_wishes$Wishes <- sapply(evaluation_likes_and_wishes$Wishes,
 
 # After removing special characters and converting everything to lower case
 head(evaluation_likes_and_wishes, 10)
+```
 
+    ## # A tibble: 10 × 5
+    ##    `Class Group`          `Student's Gender` Average Course Evalu…¹ Likes Wishes
+    ##    <chr>                  <chr>                               <dbl> <chr> <chr> 
+    ##  1 20230821-20231128-BI2… Female                                  5 it i… "none"
+    ##  2 20230821-20231128-BI2… Female                                  5 the … "i do…
+    ##  3 20230821-20231128-BI2… Female                                  5 it i… "more…
+    ##  4 20230821-20231128-BI2… Female                                  4 i li… "use …
+    ##  5 20230821-20231128-BI2… Female                                  5 ever… "i ha…
+    ##  6 20230821-20231128-BI2… Female                                  4 the … "stud…
+    ##  7 20230821-20231128-BI2… Female                                  5 inte… "a bi…
+    ##  8 20230821-20231128-BI2… Female                                  4 its … "na"  
+    ##  9 20230821-20231128-BI2… Female                                  4 it i… ""    
+    ## 10 20230821-20231128-BI2… Female                                  4 labs… "prop…
+    ## # ℹ abbreviated name: ¹​`Average Course Evaluation Rating`
+
+``` r
 write.csv(evaluation_likes_and_wishes,
           file = "data/evaluation_likes_and_wishes.csv",
           row.names = FALSE)
@@ -389,222 +435,242 @@ evaluation_wishes_filtered <- evaluation_likes_and_wishes %>% # nolint
 write.csv(evaluation_wishes_filtered,
           file = "data/evaluation_wishes_filtered.csv",
           row.names = FALSE)
-
 ```
+
 # Loading a required Lexicon
 
-```{r Your Fifth Code Chunk}
+``` r
 data(hash_nrc_emotions)
 nrc <- hash_nrc_emotions
 nrc <- nrc %>%
-  mutate(word = token, sentiment = emotion) %>%
-  select(word, sentiment)
+    mutate(word = token, sentiment = emotion) %>%
+    select(word, sentiment)
 View(nrc)
 
-### AFINN ----
-# Assigns words with a score that runs between -5 and 5. Negative scores
-# indicate negative sentiments and positive scores indicate positive sentiments
+### AFINN ---- Assigns words with a score that runs between -5 and 5. Negative
+### scores indicate negative sentiments and positive scores indicate positive
+### sentiments
 afinn <- get_sentiments(lexicon = "afinn")
 View(afinn)
 
-### Bing ----
-# Assigns words into positive and negative categories only
+### Bing ---- Assigns words into positive and negative categories only
 bing <- get_sentiments("bing")
 View(bing)
-
 ```
 
-# Innerjoin likes and wishes with correspodning likes and wishes 
+# Innerjoin likes and wishes with correspodning likes and wishes
 
-```{r Your Sixth Code Chunk}
+``` r
 evaluation_likes_filtered_nrc <- evaluation_likes_filtered %>%
-  inner_join(nrc,
-             by = join_by(`Likes (tokenized)` == word),
-             relationship = "many-to-many")
+    inner_join(nrc, by = join_by(`Likes (tokenized)` == word), relationship = "many-to-many")
 
 evaluation_wishes_filtered_nrc <- evaluation_wishes_filtered %>%
-  inner_join(nrc,
-             by = join_by(`Wishes (tokenized)` == word),
-             relationship = "many-to-many")
-
+    inner_join(nrc, by = join_by(`Wishes (tokenized)` == word), relationship = "many-to-many")
 ```
 
 # Frequency Sentiment per group and per Gender
-```{r Your Six Code Chunk}
 
-# svg(filename = "visualizations/nrc_likes_chord.svg",
-#     width = 8.5, height = 8.5, pointsize = 12,
-#     bg = "transparent")
+``` r
+# svg(filename = 'visualizations/nrc_likes_chord.svg', width = 8.5, height =
+# 8.5, pointsize = 12, bg = 'transparent')
 
-# pdf("visualizations/nrc_likes_chord.pdf",
-#     width = 8.5, height = 8.5,
-#     bg = "transparent", pagecentre = TRUE, paper = "A4")
+# pdf('visualizations/nrc_likes_chord.pdf', width = 8.5, height = 8.5, bg =
+# 'transparent', pagecentre = TRUE, paper = 'A4')
 
-grid_col <- c("A" = blue_grey_colours_11[1],
-              "B" = "#f3c487",
-              "C" = blue_grey_colours_11[5])
+grid_col <- c(A = blue_grey_colours_11[1], B = "#f3c487", C = blue_grey_colours_11[5])
 
-nrc_likes_chord <-  evaluation_likes_filtered_nrc %>%
-  # filter(decade != "NA" & !sentiment %in% c("positive", "negative")) %>%
-  count(sentiment, `Class Group`) %>%
-  group_by(`Class Group`, sentiment) %>%
-  summarise(sentiment_sum = sum(n)) %>%
-  filter(sentiment_sum > 10) %>%
-  mutate(sentiment = reorder(sentiment, sentiment_sum)) %>%
-  ungroup()
+nrc_likes_chord <- evaluation_likes_filtered_nrc %>%
+    # filter(decade != 'NA' & !sentiment %in% c('positive', 'negative')) %>%
+count(sentiment, `Class Group`) %>%
+    group_by(`Class Group`, sentiment) %>%
+    summarise(sentiment_sum = sum(n)) %>%
+    filter(sentiment_sum > 10) %>%
+    mutate(sentiment = reorder(sentiment, sentiment_sum)) %>%
+    ungroup()
+```
 
+    ## `summarise()` has grouped output by 'Class Group'. You can override using the
+    ## `.groups` argument.
+
+``` r
 circos.clear()
 # Set the gap size
-circos.par(gap.after = c(rep(5, length(unique(nrc_likes_chord[[1]])) - 1), 15,
-                         rep(5, length(unique(nrc_likes_chord[[2]])) - 1), 15))
+circos.par(gap.after = c(rep(5, length(unique(nrc_likes_chord[[1]])) - 1), 15, rep(5,
+    length(unique(nrc_likes_chord[[2]])) - 1), 15))
 
-chordDiagram(nrc_likes_chord, grid.col = grid_col, transparency = .2)
+chordDiagram(nrc_likes_chord, grid.col = grid_col, transparency = 0.2)
 title("Lexicon-Based Sentiment Analysis of Course Evaluation Likes per Group")
+```
 
+![](Lab-Submission-Markdown_files/figure-gfm/Your%20Six%20Code%20Chunk-1.png)<!-- -->
+
+``` r
 # To close the device used to create either the PNG, JPEG, SVG, or PDF.
 dev.off()
+```
 
+    ## null device 
+    ##           1
+
+``` r
 # To plot the chord diagram in the IDE:
-chordDiagram(nrc_likes_chord, grid.col = grid_col, transparency = .2)
+chordDiagram(nrc_likes_chord, grid.col = grid_col, transparency = 0.2)
 title("Lexicon-Based Sentiment Analysis of Course Evaluation Likes per Group")
 
-## Evaluation Wishes per Group ----
-# We can save the plots by hard-coding the save function as follows:
-# NOTE: Execute one filetype at a time, i.e., either PNG, JPEG, SVG, or PDF.
-# png(filename = "visualizations/nrc_wishes_chord.png",
-#     width = 1920, height = 1080, units = "px", pointsize = 12,
-#     bg = "transparent", res = 150)
+## Evaluation Wishes per Group ---- We can save the plots by hard-coding the
+## save function as follows: NOTE: Execute one filetype at a time, i.e., either
+## PNG, JPEG, SVG, or PDF.  png(filename =
+## 'visualizations/nrc_wishes_chord.png', width = 1920, height = 1080, units =
+## 'px', pointsize = 12, bg = 'transparent', res = 150)
 
 
 
-# svg(filename = "visualizations/nrc_wishes_chord.svg",
-#     width = 8.5, height = 8.5, pointsize = 12,
-#     bg = "transparent")
+# svg(filename = 'visualizations/nrc_wishes_chord.svg', width = 8.5, height =
+# 8.5, pointsize = 12, bg = 'transparent')
 
-# pdf("visualizations/nrc_wishes_chord.pdf",
-#     width = 8.5, height = 8.5,
-#     bg = "transparent", pagecentre = TRUE, paper = "A4")
+# pdf('visualizations/nrc_wishes_chord.pdf', width = 8.5, height = 8.5, bg =
+# 'transparent', pagecentre = TRUE, paper = 'A4')
 
-grid_col <- c("A" = blue_grey_colours_11[1],
-              "B" = "#f3c487",
-              "C" = blue_grey_colours_11[5])
+grid_col <- c(A = blue_grey_colours_11[1], B = "#f3c487", C = blue_grey_colours_11[5])
 
-nrc_wishes_chord <-  evaluation_wishes_filtered_nrc %>%
-  # filter(decade != "NA" & !sentiment %in% c("positive", "negative")) %>%
-  count(sentiment, `Class Group`) %>%
-  group_by(`Class Group`, sentiment) %>%
-  summarise(sentiment_sum = sum(n)) %>%
-  filter(sentiment_sum > 3) %>%
-  mutate(sentiment = reorder(sentiment, sentiment_sum)) %>%
-  ungroup()
+nrc_wishes_chord <- evaluation_wishes_filtered_nrc %>%
+    # filter(decade != 'NA' & !sentiment %in% c('positive', 'negative')) %>%
+count(sentiment, `Class Group`) %>%
+    group_by(`Class Group`, sentiment) %>%
+    summarise(sentiment_sum = sum(n)) %>%
+    filter(sentiment_sum > 3) %>%
+    mutate(sentiment = reorder(sentiment, sentiment_sum)) %>%
+    ungroup()
+```
 
+    ## `summarise()` has grouped output by 'Class Group'. You can override using the
+    ## `.groups` argument.
+
+``` r
 circos.clear()
 # Set the gap size
-circos.par(gap.after = c(rep(5, length(unique(nrc_wishes_chord[[1]])) - 1), 15,
-                         rep(5, length(unique(nrc_wishes_chord[[2]])) - 1), 15))
+circos.par(gap.after = c(rep(5, length(unique(nrc_wishes_chord[[1]])) - 1), 15, rep(5,
+    length(unique(nrc_wishes_chord[[2]])) - 1), 15))
 
-chordDiagram(nrc_wishes_chord, grid.col = grid_col, transparency = .2)
+chordDiagram(nrc_wishes_chord, grid.col = grid_col, transparency = 0.2)
 title("Lexicon-Based Sentiment Analysis of Course Evaluation Wishes per Group")
 
 # To close the device used to create either the PNG, JPEG, SVG, or PDF.
 dev.off()
+```
 
+    ## null device 
+    ##           1
+
+``` r
 # To plot the chord diagram in the IDE:
-chordDiagram(nrc_wishes_chord, grid.col = grid_col, transparency = .2)
+chordDiagram(nrc_wishes_chord, grid.col = grid_col, transparency = 0.2)
 title("Lexicon-Based Sentiment Analysis of Course Evaluation Wishes per Group")
 
-## Evaluation Likes per Gender ----
-# We can save the plots by hard-coding the save function as follows:
-# NOTE: Execute one filetype at a time, i.e., either PNG, JPEG, SVG, or PDF.
-# png(filename = "visualizations/nrc_likes_gender_chord.png",
-#     width = 1920, height = 1080, units = "px", pointsize = 12,
-#     bg = "transparent", res = 150)
+## Evaluation Likes per Gender ---- We can save the plots by hard-coding the
+## save function as follows: NOTE: Execute one filetype at a time, i.e., either
+## PNG, JPEG, SVG, or PDF.  png(filename =
+## 'visualizations/nrc_likes_gender_chord.png', width = 1920, height = 1080,
+## units = 'px', pointsize = 12, bg = 'transparent', res = 150)
 
 
 
-# svg(filename = "visualizations/nrc_likes_gender_chord.svg",
-#     width = 8.5, height = 8.5, pointsize = 12,
-#     bg = "transparent")
+# svg(filename = 'visualizations/nrc_likes_gender_chord.svg', width = 8.5,
+# height = 8.5, pointsize = 12, bg = 'transparent')
 
-# pdf("visualizations/nrc_likes_gender_chord.pdf",
-#     width = 8.5, height = 8.5,
-#     bg = "transparent", pagecentre = TRUE, paper = "A4")
+# pdf('visualizations/nrc_likes_gender_chord.pdf', width = 8.5, height = 8.5,
+# bg = 'transparent', pagecentre = TRUE, paper = 'A4')
 
-grid_col <- c("Male" = blue_grey_colours_11[1],
-              "Female" = "#f387f3")
+grid_col <- c(Male = blue_grey_colours_11[1], Female = "#f387f3")
 
-nrc_likes_chord <-  evaluation_likes_filtered_nrc %>%
-  # filter(decade != "NA" & !sentiment %in% c("positive", "negative")) %>%
-  count(sentiment, `Student's Gender`) %>%
-  group_by(`Student's Gender`, sentiment) %>%
-  summarise(sentiment_sum = sum(n)) %>%
-  filter(sentiment_sum > 10) %>%
-  mutate(sentiment = reorder(sentiment, sentiment_sum)) %>%
-  ungroup()
+nrc_likes_chord <- evaluation_likes_filtered_nrc %>%
+    # filter(decade != 'NA' & !sentiment %in% c('positive', 'negative')) %>%
+count(sentiment, `Student's Gender`) %>%
+    group_by(`Student's Gender`, sentiment) %>%
+    summarise(sentiment_sum = sum(n)) %>%
+    filter(sentiment_sum > 10) %>%
+    mutate(sentiment = reorder(sentiment, sentiment_sum)) %>%
+    ungroup()
+```
 
+    ## `summarise()` has grouped output by 'Student's Gender'. You can override using
+    ## the `.groups` argument.
+
+``` r
 circos.clear()
 # Set the gap size
-circos.par(gap.after = c(rep(5, length(unique(nrc_likes_chord[[1]])) - 1), 15,
-                         rep(5, length(unique(nrc_likes_chord[[2]])) - 1), 15))
+circos.par(gap.after = c(rep(5, length(unique(nrc_likes_chord[[1]])) - 1), 15, rep(5,
+    length(unique(nrc_likes_chord[[2]])) - 1), 15))
 
-chordDiagram(nrc_likes_chord, grid.col = grid_col, transparency = .2)
+chordDiagram(nrc_likes_chord, grid.col = grid_col, transparency = 0.2)
 title("Lexicon-Based Sentiment Analysis of Course Evaluation Likes per Gender")
 
 # To close the device used to create either the PNG, JPEG, SVG, or PDF.
 dev.off()
+```
 
+    ## null device 
+    ##           1
+
+``` r
 # To plot the chord diagram in the IDE:
-chordDiagram(nrc_likes_chord, grid.col = grid_col, transparency = .2)
+chordDiagram(nrc_likes_chord, grid.col = grid_col, transparency = 0.2)
 title("Lexicon-Based Sentiment Analysis of Course Evaluation Likes per Gender")
 
-## Evaluation Wishes per Gender ----
-# We can save the plots by hard-coding the save function as follows:
-# NOTE: Execute one filetype at a time, i.e., either PNG, JPEG, SVG, or PDF.
-# png(filename = "visualizations/nrc_wishes_gender_chord.png",
-#     width = 1920, height = 1080, units = "px", pointsize = 12,
-#     bg = "transparent", res = 150)
+## Evaluation Wishes per Gender ---- We can save the plots by hard-coding the
+## save function as follows: NOTE: Execute one filetype at a time, i.e., either
+## PNG, JPEG, SVG, or PDF.  png(filename =
+## 'visualizations/nrc_wishes_gender_chord.png', width = 1920, height = 1080,
+## units = 'px', pointsize = 12, bg = 'transparent', res = 150)
 
 
 
-# svg(filename = "visualizations/nrc_wishes_gender_chord.svg",
-#     width = 8.5, height = 8.5, pointsize = 12,
-#     bg = "transparent")
+# svg(filename = 'visualizations/nrc_wishes_gender_chord.svg', width = 8.5,
+# height = 8.5, pointsize = 12, bg = 'transparent')
 
-# pdf("visualizations/nrc_wishes_gender_chord.pdf",
-#     width = 8.5, height = 8.5,
-#     bg = "transparent", pagecentre = TRUE, paper = "A4")
+# pdf('visualizations/nrc_wishes_gender_chord.pdf', width = 8.5, height = 8.5,
+# bg = 'transparent', pagecentre = TRUE, paper = 'A4')
 
-grid_col <- c("Male" = "lightblue",
-              "Female" = "lightpink")
+grid_col <- c(Male = "lightblue", Female = "lightpink")
 
-nrc_wishes_chord <-  evaluation_wishes_filtered_nrc %>%
-  # filter(decade != "NA" & !sentiment %in% c("positive", "negative")) %>%
-  count(sentiment, `Student's Gender`) %>%
-  group_by(`Student's Gender`, sentiment) %>%
-  summarise(sentiment_sum = sum(n)) %>%
-  filter(sentiment_sum > 3) %>%
-  mutate(sentiment = reorder(sentiment, sentiment_sum)) %>%
-  ungroup()
+nrc_wishes_chord <- evaluation_wishes_filtered_nrc %>%
+    # filter(decade != 'NA' & !sentiment %in% c('positive', 'negative')) %>%
+count(sentiment, `Student's Gender`) %>%
+    group_by(`Student's Gender`, sentiment) %>%
+    summarise(sentiment_sum = sum(n)) %>%
+    filter(sentiment_sum > 3) %>%
+    mutate(sentiment = reorder(sentiment, sentiment_sum)) %>%
+    ungroup()
+```
 
+    ## `summarise()` has grouped output by 'Student's Gender'. You can override using
+    ## the `.groups` argument.
+
+``` r
 circos.clear()
 # Set the gap size
-circos.par(gap.after = c(rep(5, length(unique(nrc_wishes_chord[[1]])) - 1), 15,
-                         rep(5, length(unique(nrc_wishes_chord[[2]])) - 1), 15))
+circos.par(gap.after = c(rep(5, length(unique(nrc_wishes_chord[[1]])) - 1), 15, rep(5,
+    length(unique(nrc_wishes_chord[[2]])) - 1), 15))
 
-chordDiagram(nrc_wishes_chord, grid.col = grid_col, transparency = .2)
+chordDiagram(nrc_wishes_chord, grid.col = grid_col, transparency = 0.2)
 title("Lexicon-Based Sentiment Analysis of Course Evaluation Wishes per Gender")
 
 # To close the device used to create either the PNG, JPEG, SVG, or PDF.
 dev.off()
+```
 
+    ## null device 
+    ##           1
+
+``` r
 # To plot the chord diagram in the IDE:
-chordDiagram(nrc_wishes_chord, grid.col = grid_col, transparency = .2)
+chordDiagram(nrc_wishes_chord, grid.col = grid_col, transparency = 0.2)
 title("Lexicon-Based Sentiment Analysis of Course Evaluation Wishes per Gender")
-
 ```
 
 # Classifications of Words Per sentiment
-```{r Your Seven Code Chunk}
+
+``` r
 evaluation_likes_filtered_nrc %>%
   # filter(`Class Group` %in% "A") %>%
   distinct(`Likes (tokenized)`) %>%
@@ -620,7 +686,11 @@ evaluation_likes_filtered_nrc %>%
   ggtitle(paste("Classification of Words in Course Evaluation Likes ",
                 "based on the NRC Lexicon")) +
   coord_flip()
+```
 
+![](Lab-Submission-Markdown_files/figure-gfm/Your%20Seven%20Code%20Chunk-1.png)<!-- -->
+
+``` r
 ## Evaluation Wishes ----
 evaluation_wishes_filtered_nrc %>%
   # filter(`Class Group` %in% "A") %>%
@@ -637,16 +707,13 @@ evaluation_wishes_filtered_nrc %>%
   ggtitle(paste("Classification of Words in Course Evaluation Wishes ",
                 "based on the NRC Lexicon")) +
   coord_flip()
-
-
-
-
 ```
 
+![](Lab-Submission-Markdown_files/figure-gfm/Your%20Seven%20Code%20Chunk-2.png)<!-- -->
+
 # Average Per Question per Group
-```{r Your nine Code Chunk}
 
-
+``` r
 evaluation_rating_per_question_per_group <- Mid_Term_Course_Evaluation_Form_Preprocessed %>% # nolint
   rename(`Class Group` = Group) %>%
   filter(!is.na(`Average Course Evaluation Rating`)) %>%
@@ -749,7 +816,11 @@ ggplot(evaluation_rating_per_question_per_group_long_data,
   blue_grey_theme() +
   geom_hline(yintercept = 4, color = "#b90c0c",
              linetype = "dashed", size = 1)
+```
 
+![](Lab-Submission-Markdown_files/figure-gfm/Your%20nine%20Code%20Chunk-1.png)<!-- -->
+
+``` r
 ## Average per Question per Gender ----
 evaluation_rating_per_question_per_gender <- Mid_Term_Course_Evaluation_Form_Preprocessed %>% # nolint
   mutate(`Student's Gender` =
@@ -855,12 +926,9 @@ ggplot(evaluation_rating_per_question_per_gender_long_data,
   blue_grey_theme() +
   geom_hline(yintercept = 4, color = "#b90c0c",
              linetype = "dashed", size = 1)
-
-
 ```
 
+![](Lab-Submission-Markdown_files/figure-gfm/Your%20nine%20Code%20Chunk-2.png)<!-- -->
 
-
-
-
-**etc.** as per the lab submission requirements. Be neat and communicate in a clear and logical manner.
+**etc.** as per the lab submission requirements. Be neat and communicate
+in a clear and logical manner.
