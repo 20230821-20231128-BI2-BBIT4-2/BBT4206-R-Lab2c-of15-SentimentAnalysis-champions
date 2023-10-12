@@ -174,6 +174,7 @@ require("knitr")
 if (!is.element("kableExtra", installed.packages()[, 1])) {
   install.packages("kableExtra", dependencies = TRUE)
 }
+
 require("kableExtra")
 
 ## formattable -  To create a formattable object ----
@@ -338,12 +339,12 @@ expand_contractions <- function(doc) {
 
 # Select the class group, gender, average course evaluation rating,
 # and most importantly, the likes and wishes from the original dataset
-evaluation_likes_and_wishes <- student_performance_dataset %>%
+evaluation_likes_and_wishes <- Mid_Term_Course_Evaluation_Form_Preprocessed %>%
   mutate(`Student's Gender` =
-           ifelse(gender == 1, "Male", "Female")) %>%
-  rename(`Class Group` = class_group) %>%
-  rename(Likes = `D - 1. \nWrite two things you like about the teaching and learning in this unit so far.`) %>% # nolint
-  rename(Wishes = `D - 2. Write at least one recommendation to improve the teaching and learning in this unit (for the remaining weeks in the semester)`) %>% # nolint
+           ifelse(Gender == 1, "Male", "Female")) %>%
+  rename(`Class Group` = Group) %>%
+  rename(Likes = `Likes`) %>% # nolint
+  rename(Wishes = `Dislikes`) %>% # nolint
   select(`Class Group`,
          `Student's Gender`, `Average Course Evaluation Rating`,
          Likes, Wishes) %>%
@@ -912,33 +913,34 @@ evaluation_wishes_filtered_nrc %>%
 
 # STEP 10. Average per Question ----
 ## Average per Question per Group ----
-evaluation_rating_per_question_per_group <- student_performance_dataset %>% # nolint
-  rename(`Class Group` = class_group) %>%
+
+evaluation_rating_per_question_per_group <- Mid_Term_Course_Evaluation_Form_Preprocessed %>% # nolint
+  rename(`Class Group` = Group) %>%
   filter(!is.na(`Average Course Evaluation Rating`)) %>%
   group_by(`Class Group`) %>%
   summarize(
     `A. I am enjoying the subject` =
-      mean(`A - 1. I am enjoying the subject`),
+      mean(`Average Course Evaluation Rating`),
     `B. Classes start and end on time` =
-      mean(`A - 2. Classes start and end on time`),
+      mean(`Classes start and end on time`),
     `C. The learning environment is participative, involves learning by doing and is group-based` = # nolint
-      mean(`A - 3. The learning environment is participative, involves learning by doing and is group-based`), # nolint
+      mean(`The learning environment is participative, involves learning by doing and is group-based`), # nolint
     `D. The subject content is delivered according to the course outline and meets my expectations` = # nolint
-      mean(`A - 4. The subject content is delivered according to the course outline and meets my expectations`), # nolint
+      mean(`The subject content is delivered according to the course outline and meets my expectations`), # nolint
     `E. The topics are clear and logically developed` =
-      mean(`A - 5. The topics are clear and logically developed`),
+      mean(`The topics are clear and logically developed`),
     `F. I am developing my oral and writing skills` =
-      mean(`A - 6. I am developing my oral and writing skills`),
+      mean(`I am developing my oral and writing skills`),
     `G. I am developing my reflective and critical reasoning skills` =
-      mean(`A - 7. I am developing my reflective and critical reasoning skills`), # nolint
+      mean(`I am developing my reflective and critical reasoning skills`), # nolint
     `H. The assessment methods are assisting me to learn` =
-      mean(`A - 8. The assessment methods are assisting me to learn`),
+      mean(`The assessment methods are assisting me to learn`),
     `I. I receive relevant feedback` =
-      mean(`A - 9. I receive relevant feedback`),
+      mean(`I receive relevant feedback`),
     `J. I read the recommended readings and notes` =
-      mean(`A - 10. I read the recommended readings and notes`),
+      mean(`I read the recommended readings and notes`),
     `K. I use the eLearning material posted` =
-      mean(`A - 11. I use the eLearning material posted`),
+      mean(`I use the eLearning material posted`),
     `L. Mean Overall Course Evaluation Rating` =
       mean(`Average Course Evaluation Rating`),
   ) %>%
@@ -1016,34 +1018,34 @@ ggplot(evaluation_rating_per_question_per_group_long_data,
              linetype = "dashed", size = 1)
 
 ## Average per Question per Gender ----
-evaluation_rating_per_question_per_gender <- student_performance_dataset %>% # nolint
+evaluation_rating_per_question_per_gender <- Mid_Term_Course_Evaluation_Form_Preprocessed %>% # nolint
   mutate(`Student's Gender` =
-           ifelse(gender == 1, "Male", "Female")) %>%
+           ifelse(Gender == 1, "Male", "Female")) %>%
   filter(!is.na(`Average Course Evaluation Rating`)) %>%
   group_by(`Student's Gender`) %>%
   summarize(
     `A. I am enjoying the subject` =
-      mean(`A - 1. I am enjoying the subject`),
+      mean(`Average Course Evaluation Rating`),
     `B. Classes start and end on time` =
-      mean(`A - 2. Classes start and end on time`),
+      mean(`Classes start and end on time`),
     `C. The learning environment is participative, involves learning by doing and is group-based` = # nolint
-      mean(`A - 3. The learning environment is participative, involves learning by doing and is group-based`), # nolint
+      mean(`The learning environment is participative, involves learning by doing and is group-based`), # nolint
     `D. The subject content is delivered according to the course outline and meets my expectations` = # nolint
-      mean(`A - 4. The subject content is delivered according to the course outline and meets my expectations`), # nolint
+      mean(`The subject content is delivered according to the course outline and meets my expectations`), # nolint
     `E. The topics are clear and logically developed` =
-      mean(`A - 5. The topics are clear and logically developed`),
+      mean(`The topics are clear and logically developed`),
     `F. I am developing my oral and writing skills` =
-      mean(`A - 6. I am developing my oral and writing skills`),
+      mean(`I am developing my oral and writing skills`),
     `G. I am developing my reflective and critical reasoning skills` =
-      mean(`A - 7. I am developing my reflective and critical reasoning skills`), # nolint
+      mean(`I am developing my reflective and critical reasoning skills`), # nolint
     `H. The assessment methods are assisting me to learn` =
-      mean(`A - 8. The assessment methods are assisting me to learn`),
+      mean(`The assessment methods are assisting me to learn`),
     `I. I receive relevant feedback` =
-      mean(`A - 9. I receive relevant feedback`),
+      mean(`I receive relevant feedback`),
     `J. I read the recommended readings and notes` =
-      mean(`A - 10. I read the recommended readings and notes`),
+      mean(`I read the recommended readings and notes`),
     `K. I use the eLearning material posted` =
-      mean(`A - 11. I use the eLearning material posted`),
+      mean(`I use the eLearning material posted`),
     `L. Mean Overall Course Evaluation Rating` =
       mean(`Average Course Evaluation Rating`),
   ) %>%
